@@ -1,8 +1,8 @@
 {
     "name": "mediator"
-  , "description": "Implementation of Mediator Pattern"
-  , "version": "0.0.1"
+  , "description": "Implementation of the Mediator Pattern"
+  , "version": "0.0.2b"
   , "author": "Henrik A. Norberg <iam@henriknorberg.net>"
   , "keywords": ["mediator","mediator design pattern","pattern", "observer", "pub-sub", "util", "base"]
-  , "main": "./mediator.js"
+  , "main": "./index.js"
 }
