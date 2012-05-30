@@ -1,9 +1,9 @@
-Mediator = function(){
+var Mediator = function(){
     this.self = this;
     this.className = "Mediator";
 
 
-    this.channels = []
+    this.channels = {}
    
 }
 
@@ -11,6 +11,14 @@ Mediator.prototype.add = function (channel,member){
 
     //check to see if channel excists
     if (!this.channels[channel]) this.channels[channel] = []
+
+    //check to see if member is already listening to channel
+    for(var i=0; i<this.channels[channel].length;i++ ){ 
+        if (this.channels[channel][i] === member){
+            //console.log("Mediator: Allready a member of " + channel);
+            return
+        }    
+    }
     
     //add member to channel
     this.channels[channel].push(member)
@@ -22,29 +30,24 @@ Mediator.prototype.add = function (channel,member){
     }
 }
 
-/*
-Mediator.prototype.remove = function (member){
-    //should also clean up channels
-
-    for(var i=0; i<this.chanels.length;i++ ){ 
-      if(this.chanels[i]==member){
-        members.splice(i,1); 
-      }  
-    } 
-
+//*
+Mediator.prototype.remove = function (channel, member){
+    for(var i=0; i<this.channels[channel].length;i++ ){ 
+            if(this.channels[channel][i]===member){
+                this.channels[channel].splice(i,1);
+                return;
+            }
+      } 
     member.mediator = undefined;
-    
 }
-*/
+//*/
 
 Mediator.prototype.emit = function (channel,env){
-        
      for(var i=0; i<this.channels[channel].length; i++){ 
-        
         try{
             this.channels[channel][i].on(env)
         } catch (err){
-
+            //oh noooo
         }
     }
 }

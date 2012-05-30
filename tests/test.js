@@ -5,6 +5,8 @@ var Mediator = require('../index'),
 
 
 mediator.add("testChannel1",member0);
+mediator.add("testChannel1",member0);
+
 mediator.add("testChannel1",member1);
 mediator.add("testChannel2",member1);
 
@@ -18,3 +20,9 @@ member1.on = function(rs){
 
 member1.emit("testChannel1", {res:"word"});
 member1.emit("testChannel2", {res:"yo"});
+
+mediator.remove("testChannel1",member0);
+member1.emit("testChannel1", {res:"word"});
+
+
+mediator.remove("testChannel2",member1);
