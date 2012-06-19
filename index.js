@@ -3,55 +3,58 @@ var Mediator = function(){
     this.className = "Mediator";
 
 
-    this.channels = {}
+    this.channels = {};
    
-}
+};
 
-Mediator.prototype.add = function (channel,member){
+Mediator.prototype.add = function (member, event, fn){
 
-    //check to see if channel excists
-    if (!this.channels[channel]) this.channels[channel] = []
+    //check to see if event excists
+    if (!this.channels[event]) this.channels[event] = [];
 
-    //check to see if member is already listening to channel
-    for(var i=0; i<this.channels[channel].length;i++ ){ 
-        if (this.channels[channel][i] === member){
-            //console.log("Mediator: Allready a member of " + channel);
-            return
-        }    
+    //check to see if member is already listening to event
+    for(var i=0; i<this.channels[event].length;i++ ){
+        if (this.channels[event][i] === {member:member,fn:fn}){
+            console.log("Mediator: Allready a member of " + event);
+            return;
+        }
     }
     
-    //add member to channel
-    this.channels[channel].push(member)
+    //add member to event
+    this.channels[event].push({member:member,fn:fn});
 
     //decorate member
     member.mediator = this;
-    member.emit = function (channel,evt){
-        this.mediator.emit(channel,evt)
-    }
-}
+    member.emit = function (event,evt){
+        this.mediator.emit(event,evt);
+    };
+};
 
 //*
-Mediator.prototype.remove = function (channel, member){
-    for(var i=0; i<this.channels[channel].length;i++ ){ 
-            if(this.channels[channel][i]===member){
-                this.channels[channel].splice(i,1);
+Mediator.prototype.remove = function (event, member){
+    for(var i=0; i<this.channels[event].length;i++ ){
+            if(this.channels[event][i].member===member){
+                this.channels[event].splice(i,1);
                 return;
             }
-      } 
+      }
     member.mediator = undefined;
-}
+    //not removing emit in case listening to another instance...
+};
 //*/
 
-Mediator.prototype.emit = function (channel,env){
-     for(var i=0; i<this.channels[channel].length; i++){ 
+Mediator.prototype.emit = function (event,env){
+     for(var i=0; i<this.channels[event].length; i++){
         try{
-            this.channels[channel][i].on(env)
+            this.channels[event][i].fn(env); //get event and fire it
+            //console.log(typeof this.channels[event][i].fn)
         } catch (err){
             //oh noooo
+            //console.log(typeof this.channels[event][i].fn)
         }
     }
-}
+};
 
 module.exports = function(){
     return new Mediator();
-} 
+};
