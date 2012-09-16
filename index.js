@@ -1,9 +1,13 @@
 var Mediator = function(){
-    this.self = this;
-    this.className = "Mediator";
+    this.className = "::Mediator::";
 
     this.channels = {};
-   
+    
+    return this;
+};
+
+Mediator.prototype.toString = function (){          
+    return "::Mediator::";
 };
 
 Mediator.prototype.add = function (member, event, fn){
@@ -41,7 +45,6 @@ Mediator.prototype.add = function (member, event, fn){
 };
 
 Mediator.prototype.hasChannel = function (event){
-    //please optimize for MODERN javascript
     for(var i in this.channels){
         if(i === event){
             return true;
@@ -56,6 +59,7 @@ Mediator.prototype.remove = function (event, member){
     for(var i=0; i<this.channels[event].length;i++ ){
             if(this.channels[event][i].member===member){
                 this.channels[event].splice(i,1);
+                //console.log("Mediator: Removed member from " + event + " " + this.channels[event].length);
                 return;
             }
       }
@@ -63,12 +67,30 @@ Mediator.prototype.remove = function (event, member){
     //not removing emit in case listening to another instance...
 };
 
+Mediator.prototype.removeFromAll = function (member){
+    for (var i in this.channels){
+           this.remove(i,member);
+    }
+}    
+
+
 Mediator.prototype.emit = function (event,env){
      if (!this.channels[event]) console.log("Mediator.emit: There is no channel called " + event); //return;
+     var evObj;
+     
      for(var i=0; i<this.channels[event].length; i++){
+
         try{
-            this.channels[event][i].fn(env); //get event and fire it
-            //console.log(typeof this.channels[event][i].fn)
+             //get event and fire it
+             evObj = this.channels[event][i];
+
+            //to secure backward comp where callback could trigger any function, test to see if string
+            if (typeof  this.channels[event][i].fn === "string") {
+               evObj.member[evObj.fn](env);
+            } else {
+                this.channels[event][i].fn(env);
+            }
+
         } catch (err){
             //oh noooo
             //console.log("No callback set: "+err);

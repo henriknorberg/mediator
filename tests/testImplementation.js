@@ -7,6 +7,7 @@ var Mediator = require('../index'),
 //add the members to the mediator
 mediator.add(member0,"testEvent0",member0Callback);
 mediator.add(member1,"testEvent0",member1Callback);
+
 //inline callback
 mediator.add(member1,"testEvent1",function(rs){
     console.log("-> testEvent1 " + rs.res);
