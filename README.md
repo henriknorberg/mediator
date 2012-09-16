@@ -53,3 +53,5 @@ With [npm](http://npmjs.org) do:
 ```
 npm install mediator
 ```
+
+License: MIT
