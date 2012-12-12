@@ -1,7 +1,7 @@
 {
   "name": "mediator",
   "description": "Implementation of the Mediator Pattern",
-  "version": "0.0.5",
+  "version": "0.0.6b",
   "author": {
     "name": "Henrik A. Norberg",
     "email": "iam@henriknorberg.net"
@@ -16,10 +16,10 @@
     "base"
   ],
   "main": "./index.js",
-  "readme": "mediator\n========\n\nMediator pattern implementation for Node.js.  \n\nexample\n=======\n\n````javascript\n\nvar Mediator = require('../index'),\n    mediator =  new Mediator(),\n    // Add a couple of members\n    member0 = {},\n    member1 = {};\n\n//add the members to the mediator\nmediator.add(member0,\"testEvent0\",member0Callback);\nmediator.add(member1,\"testEvent0\",member1Callback);\n\n//inline callback\nmediator.add(member1,\"testEvent1\",function(rs){\n    console.log(\"-> testEvent1 \" + rs.res);\n});\n\n//add a few callbacks\nfunction member0Callback (rs){\n    console.log(\"-> member0Callback \" + rs.res);\n};\n\nfunction member1Callback (rs){\n    console.log(\"-> member1Callback \" + rs.res);\n};\n\n//emit some events\nmember0.emit(\"testEvent0\", {res:\"word\"});\nmember1.emit(\"testEvent1\", {res:\"yo\"});\n\n//removelistener\nmediator.remove(\"testEvent0\",member1);\n//...and check if is still listening\nmember0.emit(\"testEvent0\", {res:\"word\"});\n\n````\n\n\ninstall\n=======\n\nWith [npm](http://npmjs.org) do:\n\n```\nnpm install mediator\n```",
-  "_id": "mediator@0.0.4",
+  "readme":"./readme.md",
+  "_id": "mediator@0.0.5",
   "dist": {
     "shasum": "7852b95651ac60bf8adf0470f16c017e37c14820"
   },
-  "_from": "mediator@0.0.4"
+  "_from": "mediator@0.0.5"
 }
