@@ -23,6 +23,11 @@ mediator.add(member1,"testEvent1",function(rs){
     console.log("-> testEvent1 " + rs.res);
 });
 
+//anon member with inline callback
+mediator.on("testEvent1", function(rs){
+    console.log("-> Anon testEvent1 " + rs.res);
+});
+
 //add a few callbacks
 function member0Callback (rs){
     console.log("-> member0Callback " + rs.res);
